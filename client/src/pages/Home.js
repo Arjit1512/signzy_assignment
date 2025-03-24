@@ -12,7 +12,7 @@ const Home = () => {
     const [friends, setFriends] = useState([]);
     const [recomFriends, setRecomFriends] = useState([]);
     const navigate = useNavigate();
-    axios.defaults.withCredentials=true;
+    axios.defaults.withCredentials = true;
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -23,7 +23,6 @@ const Home = () => {
 
         const fetchData = async () => {
             try {
-                // Fetch logged-in user details
                 const userResponse = await axios.get(`${process.env.REACT_APP_FRONTEND_URL}/me`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
@@ -32,7 +31,6 @@ const Home = () => {
                 setFriendRequests(userResponse.data.user.friendRequests);
                 setFriends(userResponse.data.user.friends);
 
-                // Fetch all users
                 const response = await axios.get(`${process.env.REACT_APP_FRONTEND_URL}/users`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
@@ -45,13 +43,12 @@ const Home = () => {
                 setUsers(response.data.users);
                 setFilteredUsers(response.data.users);
 
-                // Fetch recommended friends
                 const recomResponse = await axios.get(
                     `${process.env.REACT_APP_FRONTEND_URL}/${userResponse.data.user._id}/recommendations`,
                     { headers: { Authorization: `Bearer ${token}` } }
                 );
                 setRecomFriends(recomResponse.data.recomFriends);
-                
+
             } catch (error) {
                 console.log("Error: ", error);
             }
@@ -60,7 +57,6 @@ const Home = () => {
         fetchData();
     }, [navigate]);
 
-    // Handle Search
     const handleSearch = (e) => {
         setQuery(e.target.value);
         const searchResults = users.filter(user =>
@@ -95,7 +91,6 @@ const Home = () => {
 
             alert(response.data.Message);
 
-            // Refresh user data
             const userResponse = await axios.get(`${process.env.REACT_APP_FRONTEND_URL}/me`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
@@ -128,58 +123,73 @@ const Home = () => {
     };
 
     return (
-        <div className="wholediv">
-            <h2>All Users</h2>
-            {/* Search Bar */}
-            <input 
-                type="text"
-                placeholder="Search Users..."
-                value={query}
-                onChange={handleSearch}
-            />
-            <ul>
-                {filteredUsers?.map((user) => (
-                    <li key={user._id}>
-                        {user.username}
-                        {currentUser && user._id !== currentUser._id &&
-                         !friendRequests.some(req => req._id === user._id) &&
-                         !friends.some(friend => friend._id === user._id) && (  
-                            <button onClick={() => sendFriendRequest(user._id)}>Add Friend</button>
-                        )}
-                    </li>
-                ))}
-            </ul>
+        <div className="container">
+            {/* Top Navbar with Current User */}
+            <div className="navbar">
+                {currentUser && <p className="current-user">Welcome, {currentUser.username}!</p>}
+            </div>
 
-            <h2>Friend Requests</h2>
-            <ul>
-                {friendRequests?.map((request) => (
-                    <li key={request._id}>
-                        {request.username}  
-                        <button onClick={() => handleFriendRequest(request._id, "accept")}>Accept</button>
-                        <button onClick={() => handleFriendRequest(request._id, "reject")}>Reject</button>
-                    </li>
-                ))}
-            </ul>
+            <div className="content">
+                {/* Left Section - All Users & Friend Requests */}
+                <div className="left-section">
+                    <h2>All Users</h2>
+                    <input
+                        type="text"
+                        className="search-bar"
+                        placeholder="Search Users..."
+                        value={query}
+                        onChange={handleSearch}
+                    />
+                    <ul>
+                        {filteredUsers?.map((user) => (
+                            <li key={user._id}>
+                                {user.username}
+                                {currentUser && user._id !== currentUser._id &&
+                                    !friendRequests.some(req => req._id === user._id) &&
+                                    !friends.some(friend => friend._id === user._id) && (
+                                        <button onClick={() => sendFriendRequest(user._id)}>Add Friend</button>
+                                    )}
+                            </li>
+                        ))}
+                    </ul>
 
-            <h2>My Friends</h2>
-            <ul>
-                {friends?.map((friend) => (
-                    <li key={friend._id}>
-                        {friend.username}
-                        <button onClick={() => removeFriend(friend._id)}>Remove Friend</button>
-                    </li>
-                ))}
-            </ul>
+                    <h2>Friend Requests</h2>
+                    <ul>
+                        {friendRequests?.map((request) => (
+                            <li key={request._id} className="friend-request-item">
+                                <span>{request.username}</span>
+                                <div className="button-group">
+                                    <button onClick={() => handleFriendRequest(request._id, "accept")}>Accept</button>
+                                    <button className="reject-btn" onClick={() => handleFriendRequest(request._id, "reject")}>Reject</button>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
 
-            <h2>Recommended Friends</h2>
-            <ul>
-                {recomFriends?.map((user) => (
-                    <li key={user.id}>
-                        {user.username}
-                        <button onClick={() => sendFriendRequest(user.id)}>Add Friend</button>
-                    </li>
-                ))}
-            </ul>
+                {/* Right Section - Friends & Recommended Friends */}
+                <div className="right-section">
+                    <h2>My Friends</h2>
+                    <ul>
+                        {friends?.map((friend) => (
+                            <li key={friend._id}>
+                                {friend.username}
+                                <button onClick={() => removeFriend(friend._id)}>Remove</button>
+                            </li>
+                        ))}
+                    </ul>
+
+                    <h2>Recommended Friends</h2>
+                    <ul>
+                        {recomFriends?.map((user) => (
+                            <li key={user.id}>
+                                {user.username}
+                                <button onClick={() => sendFriendRequest(user.id)}>Add Friend</button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
         </div>
     );
 };
