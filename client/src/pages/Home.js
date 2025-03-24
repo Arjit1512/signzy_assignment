@@ -124,13 +124,11 @@ const Home = () => {
 
     return (
         <div className="container">
-            {/* Top Navbar with Current User */}
             <div className="navbar">
                 {currentUser && <p className="current-user">Welcome, {currentUser.username}!</p>}
             </div>
 
             <div className="content">
-                {/* Left Section - All Users & Friend Requests */}
                 <div className="left-section">
                     <h2>All Users</h2>
                     <input
@@ -167,7 +165,6 @@ const Home = () => {
                     </ul>
                 </div>
 
-                {/* Right Section - Friends & Recommended Friends */}
                 <div className="right-section">
                     <h2>My Friends</h2>
                     <ul>
