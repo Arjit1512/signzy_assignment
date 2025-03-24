@@ -1,17 +1,5 @@
 # Social Network Application
 
-## Table of Contents
-- [Overview](#overview)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Installation](#installation)
-- [Usage](#usage)
-- [API Endpoints](#api-endpoints)
-- [Non-Functional Requirements](#non-functional-requirements)
-- [Future Enhancements](#future-enhancements)
-- [Contributing](#contributing)
-- [License](#license)
-
 ---
 
 ## Overview
@@ -47,7 +35,6 @@ This project is a **social networking platform** built with React.js for the fro
 - **Backend:** Node.js + Express.js
 - **Database:** MongoDB
 - **Authentication:** JWT
-- **State Management:** Context API / Redux (if required)
 
 ---
 
@@ -55,5 +42,4 @@ This project is a **social networking platform** built with React.js for the fro
 
 ### 1. Clone the repository
 ```sh
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone [https://github.com/Arjit1512/signzy_assignment.git](https://github.com/Arjit1512/signzy_assignment.git)
