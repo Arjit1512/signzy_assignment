@@ -11,7 +11,7 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const { data } = await axios.post("http://localhost:3001/login", {
+            const { data } = await axios.post(`${process.env.REACT_APP_FRONTEND_URL}/login`, {
                 username,
                 password
             });
