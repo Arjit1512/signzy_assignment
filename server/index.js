@@ -29,8 +29,15 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: "true" }));
-
+app.all('', function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", allowedOrigins);
+    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    //Auth Each API Request created by user.
+    next();
+});
 const ObjectId = mongoose.Types.ObjectId;
 
 //register and login section
