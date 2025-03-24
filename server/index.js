@@ -15,7 +15,6 @@ const allowedOrigins = [
     "https://signzy-assignment-client.vercel.app"
 ];
 
-// Remove the duplicate cors() middleware
 const corsOptions = {
     origin: function (origin, callback) {
         if (!origin || allowedOrigins.includes(origin)) {
