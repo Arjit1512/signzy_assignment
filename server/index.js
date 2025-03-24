@@ -9,7 +9,26 @@ import { verifyToken } from "./authMiddleware.js";
 
 dotenv.config();
 const app = express()
-app.use(cors());
+
+const allowedOrigins = [
+    "http://localhost:3000",
+    "https://signzy-assignment-client.vercel.app"
+];
+
+// Remove the duplicate cors() middleware
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ['Content-Type', 'Origin', 'X-Requested-With', 'Accept', 'x-client-key', 'x-client-token', 'x-client-secret', 'Authorization'],
+    credentials: true
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: "true" }));
 
