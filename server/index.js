@@ -35,7 +35,6 @@ app.all('', function (req, res, next) {
     res.header("Access-Control-Allow-Origin", allowedOrigins);
     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-    //Auth Each API Request created by user.
     next();
 });
 const ObjectId = mongoose.Types.ObjectId;
@@ -95,7 +94,7 @@ app.get("/users", verifyToken, async (req, res) => {
 })
 
 //search-users
-app.get("/search", verifyToken,  async (req, res) => {
+app.get("/search", verifyToken, async (req, res) => {
     try {
         const { query } = req.query;
         if (!query) {
@@ -111,7 +110,7 @@ app.get("/search", verifyToken,  async (req, res) => {
 
 
 //sending friend request
-app.post("/send-request", verifyToken,  async (req, res) => {
+app.post("/send-request", verifyToken, async (req, res) => {
     try {
         const { senderId, receiverId } = req.body;
         if (!senderId || !receiverId) {
@@ -257,7 +256,7 @@ app.get("/me", verifyToken, async (req, res) => {
     try {
         const user = await User.findById(req.user.userId)
             .populate("friendRequests", "username")
-            .populate("friends", "username");  
+            .populate("friends", "username");
 
         if (!user) {
             return res.status(404).json({ Message: "User not found!" });
@@ -286,3 +285,5 @@ mongoose.connect(process.env.MONGO_URL)
     .catch((error) => {
         console.log('Error: ', error);
     })
+
+export default app;
