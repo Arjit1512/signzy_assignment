@@ -42,4 +42,4 @@ This project is a **social networking platform** built with React.js for the fro
 
 ### 1. Clone the repository
 ```sh
-git clone [https://github.com/Arjit1512/signzy_assignment.git](https://github.com/Arjit1512/signzy_assignment.git)
+git clone https://github.com/Arjit1512/signzy_assignment.git
