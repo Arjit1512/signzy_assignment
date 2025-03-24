@@ -93,7 +93,6 @@ li {
 li:hover {
     background: #3c3c3c;
 }
-
 button {
     background: #4dabf7;
     color: white;
@@ -136,6 +135,23 @@ button:hover {
     gap: 10px;
 }
 
+.logout-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    position: relative;
+    left: 785px;
+    bottom: 93px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.logout-btn:hover {
+    background-color: #cc0000;
+}
 
 
 @media (min-width: 800px) and (max-width:1200px) {
@@ -146,6 +162,10 @@ button:hover {
 
     .navbar {
         margin-top: 55%;
+    }
+
+    .logout-btn{
+        left:500px;
     }
 }
 
@@ -165,6 +185,9 @@ button:hover {
         flex-direction: column;
         margin-top: 55%;
         text-align: center;
+    }
+    .logout-btn{
+        left:25px;
     }
 }
 

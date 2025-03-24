@@ -122,11 +122,18 @@ const Home = () => {
         }
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        navigate('/login');
+    };
+
+
     return (
         <div className="container">
             <div className="navbar">
                 {currentUser && <p className="current-user">Welcome, {currentUser.username}!</p>}
             </div>
+            <button className="logout-btn" onClick={handleLogout}>Logout</button>
 
             <div className="content">
                 <div className="left-section">
