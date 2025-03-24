@@ -15,29 +15,45 @@ const allowedOrigins = [
     "https://signzy-assignment-client.vercel.app"
 ];
 
+
 const corsOptions = {
     origin: function (origin, callback) {
+        // Allow requests from allowed origins or no origin (e.g., Postman)
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
             callback(new Error('Not allowed by CORS'));
         }
     },
-    methods: ["GET", "POST", "OPTIONS"],
-    allowedHeaders: ['Content-Type', 'Origin', 'X-Requested-With', 'Accept', 'x-client-key', 'x-client-token', 'x-client-secret', 'Authorization'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: [
+        'Content-Type', 
+        'Origin', 
+        'X-Requested-With', 
+        'Accept', 
+        'Authorization', 
+        'x-client-key', 
+        'x-client-token', 
+        'x-client-secret'
+    ],
     credentials: true
 };
+
+// Use the CORS middleware with the defined options
 app.use(cors(corsOptions));
 app.use(express.json());
+
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
-app.use(bodyParser.urlencoded({ limit: "30mb", extended: "true" }));
-app.all('', function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", allowedOrigins);
-    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+
+
+// Additional headers for all responses (for dynamic origin handling)
+app.all('*', (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", req.headers.origin); // Dynamically allow the origin
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
     next();
 });
-const ObjectId = mongoose.Types.ObjectId;
 
 //register and login section
 app.post('/register', async (req, res) => {

@@ -12,6 +12,7 @@ const Home = () => {
     const [friends, setFriends] = useState([]);
     const [recomFriends, setRecomFriends] = useState([]);
     const navigate = useNavigate();
+    axios.defaults.withCredentials=true;
 
     useEffect(() => {
         const token = localStorage.getItem("token");
